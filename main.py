@@ -1,5 +1,2 @@
-from ui.ui_real_estate import *
-
-
-
+from view.ui.ui_real_estate import *
 ui = UiMainPage()

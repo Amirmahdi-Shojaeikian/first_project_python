@@ -11,7 +11,7 @@ class PersonDa:
             host="localhost",
             user="root",
             password="root123",
-            database="mft"
+            database="realestate2"
         )
         self.cursor = self.connection.cursor()
 
@@ -21,84 +21,37 @@ class PersonDa:
         self.cursor.close()
         self.connection.close()
 
-    def save(self, person):
+    def save_person(self, person):
         self.connect()
-        self.cursor.execute("INSERT INTO property"
-                            " (NAME,FAMILY,NATIONAL_code,year_creat,floor,room,price,home_code,national_code_buyer,state)"
-                            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                            [person.name, person.family, person.national_id,person.creat_home,
-                             person.floor,person.room,person.price ,person.cd_home,person.national_code_buyer,person.state])
+        self.cursor.execute("INSERT INTO PERSON (NAME,FAMILY,national_id,date_birth) VALUES (%s,%s,%s,%s)"
+                            , [person.name, person.family, person.nationalId, person.date_birth])
         self.disconnect(commit=True)
 
-    def edit(self, person):
+    def find_all_person(self):
         self.connect()
-        self.cursor.execute("INSERT INTO property"
-                            " (NAME,FAMILY,NATIONAL_code,home_code)"
-                            " VALUES (%s,%s,%s,%s)",
-                            [person.name,person.family,person.national_id,person.cd_home])
+        self.cursor.execute("SELECT * FROM PERSON")
+        person_list = self.cursor.fetchall()
+        self.disconnect()
+        if person_list:
+            return person_list
 
-        self.cursor.execute("UPDATE property SET national_code_buyer=%s ,state=%s WHERE home_code=%s  ",
-                            [person.national_id, 1,person.cd_home])
+    def remove_person(self, id):
+        self.connect()
+        self.cursor.execute("DELETE FROM PERSON WHERE ID=%S ", [id])
         self.disconnect(commit=True)
 
-    # def remove(self, id):
-    #     self.connect()
-    #     self.cursor.execute(
-    #         "DELETE FROM PERSON_TBL WHERE ID=%s", [id])
-    #     self.disconnect(commit=True)
 
-    def find_all(self):
+    def find_person_by_family(self,family):
         self.connect()
-        self.cursor.execute("SELECT * FROM property ")
+        self.cursor.execute("SELECT * FROM PERSON where family=%s",[family])
         person_list = self.cursor.fetchall()
         self.disconnect()
         if person_list:
             return person_list
-
-    def find_all_inquiry_buy(self):
+    def find_person_by_nationalId(self,nationlId):
         self.connect()
-        self.cursor.execute("SELECT * FROM property where state = 0  ")
+        self.cursor.execute("SELECT * FROM PERSON where national_id=%s",[nationlId])
         person_list = self.cursor.fetchall()
         self.disconnect()
         if person_list:
             return person_list
-
-    def find_all_inquiry_sell(self):
-        self.connect()
-        self.cursor.execute("SELECT * FROM property where state = 1 and room is not null  ")
-        person_list = self.cursor.fetchall()
-        self.disconnect()
-        if person_list:
-            return person_list
-
-
-    def find_by_code_home_buy(self, cd_home):
-        self.connect()
-        self.cursor.execute("SELECT * FROM property WHERE home_code=%s ", [cd_home])
-        person_list = self.cursor.fetchall()
-        self.disconnect()
-        if person_list:
-            return person_list
-        else:
-            return None
-
-    def find_by_code_home_sell(self, cd_home):
-        self.connect()
-        self.cursor.execute("SELECT * FROM property WHERE home_code=%s and state = 1 ", [cd_home])
-        person_list = self.cursor.fetchall()
-        self.disconnect()
-        if person_list:
-            return person_list
-        else:
-            return None
-
-
-    def find_by_national_code(self, cd_national):
-        self.connect()
-        self.cursor.execute("SELECT * FROM property WHERE national_code=%s  ", [cd_national])
-        person_list = self.cursor.fetchall()
-        self.disconnect()
-        if person_list:
-            return person_list
-        else:
-            return None

@@ -1,37 +1,48 @@
+from model.tools.validator import *
+
+
 class Person:
-    def __init__(self, name, family, national_id, creat_home,floor,room,price,cd_home,national_code_buyer=None,state = 0):
+    def __init__(self, name, family, nationalId, date_birth):
         self.name = name
         self.family = family
-        self.national_id = national_id
-        self.creat_home =creat_home
-        self.floor = floor
-        self.room =room
-        self.price = price
-        self.cd_home = cd_home
-        self.national_code_buyer=national_code_buyer
-        self.state =state
+        self.nationalId = nationalId
+        self.date_birth = date_birth
 
     def __repr__(self):
         return str(self.__dict__)
 
-    def values(self):
+    def tuple(self):
         return tuple(self.__dict__.values())
 
+    @property
+    def name(self):
+        return self._name
 
-class PersonBuy:
-    def __init__(self, name, family, national_id,cd_home,):
-        self.name = name
-        self.family = family
-        self.national_id = national_id
-        self.cd_home = cd_home
-        # self.state =state
+    @name.setter
+    def name(self, name):
+        self._name = name_validator(name, "نام درست نمی باشد")
 
-    def __repr__(self):
-        return str(self.__dict__)
+    @property
+    def family(self):
+        return self._family
 
-    def values(self):
-        return tuple(self.__dict__.values())
+    @family.setter
+    def family(self, family):
+        self._family = name_validator(family, "نام خانوادگی درست نمی باشد")
+
+    @property
+    def date_birth(self):
+        return self._dateBirth
+
+    @date_birth.setter
+    def date_birth(self, date_birth):
+        self._dateBirth = date_birth_validator(date_birth, "تاریخ تولد درست نمی باشد")
 
 
+    @property
+    def nationalId(self):
+        return  self._nationalId
 
-
+    @nationalId.setter
+    def nationalId(self, nationalId):
+        self._nationalId = nationalId_validator(nationalId,"کد ملی درست نمی باشد")

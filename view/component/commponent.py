@@ -26,7 +26,6 @@ class ComboBox:
         self.combo_value = StringVar()
         if self.combo_value:
             self.combo_value.set(text)
-            # self.valuereturn()
         self.combo = ttk.Combobox(master, width=width, values=data_list, textvariable=self.combo_value)
         self.combo.grid(column=1, row=15)
         self.combo.current(0)
@@ -59,12 +58,12 @@ class Table:
                 self.table.delete(item)
             for data in data_list:
                 self.table.insert("", END, values=data)
-
-                if data[10] == 0:
-                    self.tag = "buy"
-                    print("buy")
-                    self.table.tag_configure(self.tag, background="green")
-                else:
-                    self.tag = "sell"
-                    print("sell")
-                    self.table.tag_configure(self.tag, background="yellow")
+                #
+                # if data[10] == 0:
+                #     self.tag = "buy"
+                #     print("buy")
+                #     self.table.tag_configure(self.tag, background="green")
+                # else:
+                #     self.tag = "sell"
+                #     print("sell")
+                #     self.table.tag_configure(self.tag, background="yellow")
